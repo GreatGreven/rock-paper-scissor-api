@@ -7,7 +7,7 @@ This project targets jdk-10 to build and to run. You can either change the `sour
 ## Build
 You can either download/clone this repo and import it into your IDE (remember to import it as a gradle-project), then you can build and run the application, or you can run the application from the command line by using ./gradlew bootRun. 
  
-You can also build a single executable JAR file by using `./gradlew build` in the command line and then run the JAR-file with `java -jar build/libs/sten-sax-cygni-0.0.1-SNAPSHOT.jar`
+You can also build a single executable JAR file by using `./gradlew build` in the command line and then run the JAR-file with `java -jar build/libs/rock-paper-scissor-api-0.0.1-SNAPSHOT.jar`
 
 ## How to play the game
 
