@@ -12,7 +12,7 @@ You can also build a single executable JAR file by using `./gradlew build` in th
 ## How to play the game
 
 #### Step 1 - Creating a game
-Start by creating a game. To create a game you'll need to send a HTTP
+Start by creating a game. To create a game the user needs to send a HTTP
 POST request to `/api/games` with a name in a request body.
 ###### Example Request Body
 ```json
@@ -22,7 +22,14 @@ POST request to `/api/games` with a name in a request body.
 ```
 ###### Example in HTTPie
 `http :8080/api/games name=John`
-
+###### Response
+The user will receive a Json-object containing an invitation link with the unique ID of the game.
+The user can use this link in order to invite someone to the game.
+```json
+{
+  "invitation":"/api/games/{id}/join"
+}
+``` 
 #### Step 2 - Invite your friends
 From previous step you will get an answer with an ID for the game that you created.
 The ID can be share with a friend you want to play with. 
@@ -36,6 +43,8 @@ The `{id}` is the game-ID that you've so kindly provided.
 ```
 ###### Example in HTTPie
 `http :8080/api/games/{id}/join name=lisa`
+###### Response
+``
 #### Step 3 - Make your moves
 Now that both you and your friend have joined, you will need to decide what move you want to make. 
 The moves available are 'Rock', 'Paper' and 'Scissor'. 
