@@ -21,7 +21,7 @@ public class MoveModelTest {
 
         //PAPER
         Assert.isTrue(!move2.isRock(),"Move2 is not Rock");
-        Assert.isTrue(move1.isPaper(),"Move2 is Paper");
+        Assert.isTrue(move2.isPaper(),"Move2 is Paper");
         Assert.isTrue(!move2.isScissor(),"Move2 is not Scissor");
 
         //ROCK

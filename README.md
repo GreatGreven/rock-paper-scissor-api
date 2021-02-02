@@ -13,7 +13,7 @@ You can also build a single executable JAR file by using `./gradlew build` in th
 
 ### Step 1 - Creating a game
 Start by creating a game. To create a game the user needs to send a HTTP
-POST request to `/api/games` with a name in a request body.
+POST request to `/api/roshambo` with a name in a request body.
 ##### Example Request Body
 ```json
 {
@@ -21,19 +21,19 @@ POST request to `/api/games` with a name in a request body.
 }
 ```
 ##### Example in HTTPie
-`http :8080/api/games name=John`
+`http :8080/api/roshambo name=John`
 ##### Response
 The user will receive a Json-object containing an invitation link with the unique ID of the game.
 The user can use this link in order to invite someone to the game.
 ```json
 {
-  "invitation":"/api/games/{id}/join"
+  "invitation":"/api/roshambo/{id}/join"
 }
 ``` 
 ### Step 2 - Invite your friends
 From previous step you will get an answer with an ID for the game that you created.
 The ID can be share with a friend you want to play with. 
-The person in mind can join by sending a HTTP POST request to `/api/games/{id}/join` with a Request Body.
+The person in mind can join by sending a HTTP POST request to `/api/roshambo/{id}/join` with a Request Body.
 The `{id}` is the game-ID that you've so kindly provided.
 ##### Example Request Body
 ```json
@@ -42,19 +42,19 @@ The `{id}` is the game-ID that you've so kindly provided.
 }
 ```
 ##### Example in HTTPie
-`http :8080/api/games/{id}/join name=lisa`
+`http :8080/api/roshambo/{id}/join name=lisa`
 ##### Response
 The user will receive a Json-object containing a inital representional state of the game without any moves (because, no cheating).
 This is just for the user to get some feedback so that it knows it came to the right game.
 ```json
 {
   "id": "{id}",
-  "players" ["John", "Lisa"]
+  "players": ["John", "Lisa"]
   "round": 0
 }
 ``` 
 #### Joined the wrong game?
-No worries, it happens to the best of us. The player can of course leave by sending a HTTP POST request to `/api/games/{id}/leave` with a Request Body.
+No worries, it happens to the best of us. The player can of course leave by sending a HTTP POST request to `/api/roshambo/{id}/leave` with a Request Body.
 ##### Example Request Body
 ```json
 {
@@ -62,7 +62,7 @@ No worries, it happens to the best of us. The player can of course leave by send
 }
 ```
 ##### Example in HTTPie
-`http :8080/api/games/{id}/leave name=lisa`
+`http :8080/api/roshambo/{id}/leave name=lisa`
 ##### Response
 The user will receive a Json-object containing a message ensuring that the user has left or not. NOTE! That a user cannot leave a game if the game has started.
 ```json
@@ -96,8 +96,8 @@ Please note that your option needs to be spelled correctly and with a capital on
 }
 ```
 ##### Examples in HTTPie
-`http :8080/api/games/{id}/move name=lisa move=Paper` <br>
-`http :8080/api/games/{id}/move name=john move=Scissor`
+`http :8080/api/roshambo/{id}/move name=lisa move=Paper` <br>
+`http :8080/api/roshambo/{id}/move name=john move=Scissor`
 ##### Response
 The user will receive a Json-object containing a message ensuring that the user has made it's move .
 ```json
@@ -116,9 +116,9 @@ The user will receive a Json-object containing a message ensuring that the user 
 ```  
 ### Step 4 - Check the result
 Now that both players have made their moves, the round is over and another one .
-You and your friend can check out who is leading by sending a HTTP GET request to `/api/games/{id}/{round}`, no request body needed.
+You and your friend can check out who is leading by sending a HTTP GET request to `/api/roshambo/{id}/{round}`, no request body needed.
 ##### Example in HTTPie
-`http GET :8080/api/games/{id}/{round}`
+`http GET :8080/api/roshambo/{id}/{round}`
 ##### Response
 The user will receive a Json-object containing a representional state of the requested round.
 ```json
@@ -136,9 +136,9 @@ The user will receive a Json-object containing a representional state of the req
 }
 ```   
 #### Check the score
-If a few rounds has gone by and no one remembers the score then simply send an HTTP GET request to `/api/games/{id}/score`, no request body needed.
+If a few rounds has gone by and no one remembers the score then simply send an HTTP GET request to `/api/roshambo/{id}/score`, no request body needed.
 ##### Example in HTTPie
-`http GET :8080/api/games/{id}/{round}`
+`http GET :8080/api/roshambo/{id}/{round}`
 ##### Response
 The user will receive a Json-object containing a representional state of the game score.
 ```json
@@ -157,9 +157,9 @@ The user will receive a Json-object containing a representional state of the gam
 }
 ```
 ### Check the entire game
-The user can get a broad overview of the game by sending an HTTP GET request to `/api/games/{id}`, no request body needed.
+The user can get a broad overview of the game by sending an HTTP GET request to `/api/roshambo/{id}`, no request body needed.
 ##### Example in HTTPie
-`http GET :8080/api/games/{id}/{round}`
+`http GET :8080/api/roshambo/{id}/{round}`
 ##### Response
 The user will receive a Json-object containing a representional state of the game score.
 ```json
