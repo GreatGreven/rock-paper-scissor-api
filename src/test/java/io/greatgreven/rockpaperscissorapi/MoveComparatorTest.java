@@ -1,14 +1,20 @@
 package io.greatgreven.rockpaperscissorapi;
 
+import io.greatgreven.rockpaperscissorapi.controllers.GameController;
+import io.greatgreven.rockpaperscissorapi.services.GameService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.util.Assert;
 
 import io.greatgreven.rockpaperscissorapi.model.Move;
 import io.greatgreven.rockpaperscissorapi.model.MoveComparator;
 
 @SpringBootTest
+@AutoConfigureMockMvc
 public class MoveComparatorTest {
     MoveComparator compare;
 

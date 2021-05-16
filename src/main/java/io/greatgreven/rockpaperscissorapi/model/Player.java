@@ -11,6 +11,7 @@ public class Player implements Serializable {
     private UUID id;
     private String name;
     private Move move;
+    private int score;
 
     public Player(){
         super();
@@ -20,6 +21,12 @@ public class Player implements Serializable {
     public Player(String name){
         this();
         this.name = name;
+    }
+
+    private Player(UUID id, String name, Move move){
+        this.id = id;
+        this.name = name;
+        this.move = move;
     }
 
     public UUID getId() {
@@ -47,6 +54,10 @@ public class Player implements Serializable {
                 () -> setMove(move));
     }
 
+    public void resetMove(){
+        this.makeMove(null);
+    }
+
     private void setMove(Move move) {
         this.move = move;
     }
@@ -59,4 +70,20 @@ public class Player implements Serializable {
         return move != null;
     }
 
+    public void incrementScore(){
+        score++;
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return (obj instanceof Player) && ((Player) obj).id.toString().equals(this.id.toString());
+    }
+
+    public Player copy(){
+        return new Player(id, name, move);
+    }
 }
