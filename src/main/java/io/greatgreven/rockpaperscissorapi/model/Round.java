@@ -19,11 +19,11 @@ public class Round {
         return round;
     }
 
-    public Player getWinner() {
+    public Optional<Player> getWinner() {
         return Optional.ofNullable(winner);
     }
 
-    public Player getLoser() {
+    public Optional<Player> getLoser() {
         return Optional.ofNullable(loser);
     }
 
