@@ -8,11 +8,11 @@ public class Round {
     private final Player loser;
     private final boolean tie;
 
-    public Round(int round, boolean tie, Player winner, Player loser) {
+    public Round(int round, int result, Player player1, Player player2) {
         this.round = round;
-        this.winner = winner;
-        this.loser = loser;
-        this.tie = tie;
+        this.winner = result > 0 ? player1 : result < 0 ? player2 : null;
+        this.loser = result < 0 ? player1 : result > 0 ? player2 : null;
+        this.tie = result == 0;
     }
 
     public int getRound() {

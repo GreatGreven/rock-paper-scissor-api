@@ -124,34 +124,18 @@ public class Game implements Serializable {
         int result = moveComparator.compare(player1Move, player2Move);
 
         //2. add round
-        if (result > 0) { //player1 wins
-            this.addRound(
-                    players[0].orElseThrow(() ->
-                            new GameNotFullException(
-                                    String.format(
-                                            "Game %s not full, can't play game yet.",
-                                            uuid.toString()))),
-                    players[1].orElseThrow(() ->
-                            new GameNotFullException(
-                                    String.format(
-                                            "Game %s not full, can't play game yet.",
-                                            uuid.toString()))),
-                    false);
-        } else if (result < 0) { //player2 wins
-            this.addRound(players[1].orElseThrow(() ->
-                    new GameNotFullException(
-                            String.format(
-                                    "Game %s not full, can't play game yet.",
-                                    uuid.toString()))),
-                    players[0].orElseThrow(() ->
-                            new GameNotFullException(
-                                    String.format(
-                                            "Game %s not full, can't play game yet.",
-                                            uuid.toString()))),
-                    false);
-        } else { //tie
-            this.addRound(null, null, true);
-        }
+        this.addRound(
+                players[0].orElseThrow(() ->
+                        new GameNotFullException(
+                                String.format(
+                                        "Game %s not full, can't play game yet.",
+                                        uuid.toString()))),
+                players[1].orElseThrow(() ->
+                        new GameNotFullException(
+                                String.format(
+                                        "Game %s not full, can't play game yet.",
+                                        uuid.toString()))),
+                result);
 
         //3. reset playermoves
         Arrays.stream(players).forEach(player -> player.ifPresent(Player::resetMove));
@@ -159,9 +143,9 @@ public class Game implements Serializable {
         return this.copy();
     }
 
-    private void addRound(Player winner, Player loser, boolean tie) {
+    private void addRound(Player winner, Player loser, int result) {
         int roundNumber = rounds.size() + 1;
-        Round round = new Round(roundNumber, tie, winner, loser);
+        Round round = new Round(roundNumber, result, winner, loser);
         rounds.add(round);
     }
 
