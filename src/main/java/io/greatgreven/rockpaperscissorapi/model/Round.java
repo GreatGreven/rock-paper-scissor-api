@@ -1,5 +1,7 @@
 package io.greatgreven.rockpaperscissorapi.model;
 
+import java.util.Optional;
+
 public class Round {
     private final int round;
     private final Player winner;
@@ -17,12 +19,12 @@ public class Round {
         return round;
     }
 
-    public Player getWinner() {
-        return winner;
+    public Optional<Player> getWinner() {
+        return Optional.ofNullable(winner);
     }
 
-    public Player getLoser() {
-        return loser;
+    public Optional<Player> getLoser() {
+        return Optional.ofNullable(loser);
     }
 
     public boolean isTie() {
