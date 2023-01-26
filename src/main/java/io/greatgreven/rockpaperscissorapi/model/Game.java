@@ -15,13 +15,16 @@ public class Game implements Serializable {
     private List<Round> rounds;
 
     public Game() {
-        this.uuid = UUID.randomUUID();
+        if (this.uuid == null)
+            this.uuid = UUID.randomUUID();
         this.players = new Optional[PLAYER_LIMIT];
-        Arrays.stream(players).forEach(player -> player = Optional.empty());
+        for (int i = 0; i < PLAYER_LIMIT; i++) {
+            players[i] = Optional.empty();
+        }
     }
 
     public Game(Player player) {
-        this.players = new Optional[PLAYER_LIMIT];
+        this();
         this.addPlayer(player);
     }
 
@@ -153,4 +156,7 @@ public class Game implements Serializable {
         return new Game(uuid, players, rounds);
     }
 
+    public UUID getUUID() {
+        return this.uuid;
+    }
 }

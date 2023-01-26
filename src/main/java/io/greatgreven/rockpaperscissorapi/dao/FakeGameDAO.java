@@ -5,33 +5,43 @@ import io.greatgreven.rockpaperscissorapi.model.Game;
 import io.greatgreven.rockpaperscissorapi.model.Player;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @Repository
 public class FakeGameDAO implements IGameDAO{
+    private static final List<Game> fakeDatabase = new ArrayList<>();
+
     @Override
     public Game insertGame(String id, Player player) {
-        return null;
+        Game game = new Game(id, player);
+        fakeDatabase.add(game);
+        return game;
     }
 
     @Override
     public List<Game> getAllGames() {
-        return null;
+        return fakeDatabase;
     }
 
     @Override
     public Optional<Game> findGameById(String id) {
+        return fakeDatabase
+                .stream()
+                .filter(game -> game.getUUID().toString().equals(id))
+                .findFirst();
+    }
+
+    @Override
+    public synchronized Optional<Game> updateGameById(String id, Game game) {
+        Optional<Game> optionalGame = findGameById(id);
+
         return Optional.empty();
     }
 
     @Override
-    public Optional<Game> updateGameById(String id, Game game) {
-        return Optional.empty();
-    }
-
-    @Override
-    public Optional<Game> replaceGameById(String id, Game game) {
+    public synchronized Optional<Game> replaceGameById(String id, Game game) {
         return Optional.empty();
     }
 

@@ -2,6 +2,8 @@ package io.greatgreven.rockpaperscissorapi.controllers;
 
 import io.greatgreven.rockpaperscissorapi.model.Game;
 import io.greatgreven.rockpaperscissorapi.model.Player;
+import io.greatgreven.rockpaperscissorapi.requests.GameCreationRequest;
+import io.greatgreven.rockpaperscissorapi.responses.GameCreationResponse;
 import io.greatgreven.rockpaperscissorapi.services.IGameService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,15 +19,18 @@ public class GameController {
     
     //create game
     @PostMapping()
-    public @ResponseBody ResponseEntity<?> createGame(@RequestBody Player player){
-        Game game = gameService.createGame(player);
-        return new ResponseEntity<Game>(game, HttpStatus.OK);
+    public @ResponseBody ResponseEntity<?> createGame(@RequestBody GameCreationRequest body){
+        Game game = gameService.createGame(new Player(body.getName()));
+        return new ResponseEntity<GameCreationResponse>(
+                new GameCreationResponse(
+                        String.format("%s/%s/join", BASE_URL, game.getUUID().toString())),
+                HttpStatus.OK);
     }
 
     //join
     @PutMapping("/{id}/join")
-    public @ResponseBody ResponseEntity<?> joinGame(@PathVariable String id, @RequestBody Player player){
-        Game game = gameService.joinGame(id, player);
+    public @ResponseBody ResponseEntity<?> joinGame(@PathVariable String id, @RequestBody String playerName){
+        Game game = gameService.joinGame(id, new Player(playerName));
         return new ResponseEntity<Game>(game, HttpStatus.OK);
     }
 
