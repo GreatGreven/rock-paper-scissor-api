@@ -4,12 +4,16 @@ import java.io.Serializable;
 import java.util.Optional;
 import java.util.UUID;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import io.greatgreven.rockpaperscissorapi.exception.MoveMadeException;
 
 public class Player implements Serializable {
     private static final long serialVersionUID = 1L;
+    @JsonIgnore
     private UUID id;
     private String name;
+    @JsonIgnore
     private Move move;
     private int score;
 
@@ -62,8 +66,13 @@ public class Player implements Serializable {
         this.move = move;
     }
 
-    public Optional<Move> getMove() {
+    @JsonIgnore
+    public Optional<Move> getCheckMove() {
         return Optional.ofNullable(move);
+    }
+
+    public Move getMove() {
+        return move;
     }
 
     public boolean hasMoved(){

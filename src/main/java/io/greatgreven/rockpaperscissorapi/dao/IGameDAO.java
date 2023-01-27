@@ -16,7 +16,7 @@ public interface IGameDAO {
 
     List<Game> getAllGames();
 
-    Optional<Game> findGameById(String id);
+    Game findGameById(String id);
 
     Optional<Game> updateGameById(String id, Game game);
 

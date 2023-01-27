@@ -2,14 +2,14 @@ package io.greatgreven.rockpaperscissorapi.requests;
 
 import java.io.Serializable;
 
-public class GameCreationRequest implements Serializable {
+public class PlayerRequest implements Serializable {
     private final String name;
 
-    public GameCreationRequest() {
+    public PlayerRequest() {
         this.name = "";
     }
 
-    public GameCreationRequest(String name) {
+    public PlayerRequest(String name) {
         this.name = name;
     }
 

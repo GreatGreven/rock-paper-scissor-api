@@ -27,16 +27,16 @@ public class RoundModelTest {
         player2.makeMove(Move.Scissor);
         int result = comparator.compare(
                 player1
-                        .getMove()
+                        .getCheckMove()
                         .orElseThrow(PlayerNotInGameException::new),
                 player2
-                        .getMove()
+                        .getCheckMove()
                         .orElseThrow(PlayerNotInGameException::new));
         Assert.isTrue(result > 0, String.format("Player1: %s didn't beat %s", player1.getName(), player2.getName()));
         Round round = new Round(1, result, player1, player2);
         Assert.state(!round.isTie(), String.format("Round %s is tie", round.getRound()));
-        Assert.state(round.getWinner().isPresent() && round.getWinner().get().equals(player1), String.format("%s didn't win round %s", player1.getName(), round.getRound()));
-        Assert.state(round.getLoser().isPresent() && round.getLoser().get().equals(player2), String.format("%s didn't lose round %s", player2.getName(), round.getRound()));
+        Assert.state(round.getWinner().equals(player1.getName()), String.format("%s didn't win round %s", player1.getName(), round.getRound()));
+        Assert.state(round.getLoser().equals(player2.getName()), String.format("%s didn't lose round %s", player2.getName(), round.getRound()));
     }
     
     @Test
@@ -44,13 +44,13 @@ public class RoundModelTest {
         player1.makeMove(Move.Paper);
         player2.makeMove(Move.Scissor);
         int result = comparator.compare(
-                player1.getMove().orElseThrow(PlayerNotInGameException::new),
-                player2.getMove().orElseThrow(PlayerNotInGameException::new));
+                player1.getCheckMove().orElseThrow(PlayerNotInGameException::new),
+                player2.getCheckMove().orElseThrow(PlayerNotInGameException::new));
         Assert.isTrue(result < 0, String.format("Player2: %s didn't beat %s", player2.getName(), player1.getName()));
         Round round = new Round(2, result, player1, player2);
         Assert.state(!round.isTie(), String.format("Round %s is tie", round.getRound()));
-        Assert.state(round.getWinner().isPresent() && round.getWinner().get().equals(player2), String.format("%s didn't win round %s", player2.getName(), round.getRound()));
-        Assert.state(round.getLoser().isPresent() && round.getLoser().get().equals(player1), String.format("%s didn't lose round %s", player1.getName(), round.getRound()));
+        Assert.state(round.getWinner().equals(player2.getName()), String.format("%s didn't win round %s", player2.getName(), round.getRound()));
+        Assert.state(round.getLoser().equals(player1.getName()), String.format("%s didn't lose round %s", player1.getName(), round.getRound()));
 
     }
     
@@ -59,8 +59,8 @@ public class RoundModelTest {
         player1.makeMove(Move.Rock);
         player2.makeMove(Move.Rock);
         int result = comparator.compare(
-                player1.getMove().orElseThrow(PlayerNotInGameException::new),
-                player2.getMove().orElseThrow(PlayerNotInGameException::new));
+                player1.getCheckMove().orElseThrow(PlayerNotInGameException::new),
+                player2.getCheckMove().orElseThrow(PlayerNotInGameException::new));
         Assert.isTrue(result == 0, "Tie: didn't tie");
         Round round = new Round(3, result, player1, player2);
         Assert.state(round.isTie(), String.format("Round %s is not a tie", round.getRound()));

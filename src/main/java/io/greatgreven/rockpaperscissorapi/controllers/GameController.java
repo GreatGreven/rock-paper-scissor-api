@@ -2,7 +2,9 @@ package io.greatgreven.rockpaperscissorapi.controllers;
 
 import io.greatgreven.rockpaperscissorapi.model.Game;
 import io.greatgreven.rockpaperscissorapi.model.Player;
-import io.greatgreven.rockpaperscissorapi.requests.GameCreationRequest;
+import io.greatgreven.rockpaperscissorapi.model.Round;
+import io.greatgreven.rockpaperscissorapi.requests.MoveRequest;
+import io.greatgreven.rockpaperscissorapi.requests.PlayerRequest;
 import io.greatgreven.rockpaperscissorapi.responses.GameCreationResponse;
 import io.greatgreven.rockpaperscissorapi.services.IGameService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +21,7 @@ public class GameController {
     
     //create game
     @PostMapping()
-    public @ResponseBody ResponseEntity<?> createGame(@RequestBody GameCreationRequest body){
+    public @ResponseBody ResponseEntity<?> createGame(@RequestBody PlayerRequest body){
         Game game = gameService.createGame(new Player(body.getName()));
         return new ResponseEntity<GameCreationResponse>(
                 new GameCreationResponse(
@@ -29,21 +31,23 @@ public class GameController {
 
     //join
     @PutMapping("/{id}/join")
-    public @ResponseBody ResponseEntity<?> joinGame(@PathVariable String id, @RequestBody String playerName){
-        Game game = gameService.joinGame(id, new Player(playerName));
+    public @ResponseBody ResponseEntity<?> joinGame(@PathVariable String id, @RequestBody PlayerRequest body){
+        Game game = gameService.joinGame(id, new Player(body.getName()));
         return new ResponseEntity<Game>(game, HttpStatus.OK);
     }
 
     //leave
     @PutMapping("/{id}/leave")
-    public @ResponseBody ResponseEntity<?> leaveGame (@PathVariable String id, @RequestBody Player player){
-        Game game = gameService.leaveGame(id, player);
+    public @ResponseBody ResponseEntity<?> leaveGame (@PathVariable String id, @RequestBody PlayerRequest body){
+        Game game = gameService.leaveGame(id, body.getName());
         return new ResponseEntity<Game>(game, HttpStatus.OK);
     }
 
     //move
     @PutMapping("/{id}/move")
-    public @ResponseBody ResponseEntity<?> makeMove(@PathVariable String id, @RequestBody Player player){
+    public @ResponseBody ResponseEntity<?> makeMove(@PathVariable String id, @RequestBody MoveRequest body){
+        Player player = new Player(body.getName());
+        player.makeMove(body.getMove());
         Game game = gameService.makeMove(id, player);
         return new ResponseEntity<Game>(game, HttpStatus.OK);
     }
@@ -51,8 +55,8 @@ public class GameController {
     //show round
     @GetMapping("/{id}/round/{roundIndex}")
     public @ResponseBody ResponseEntity<?> showRound(@PathVariable String id, @PathVariable int roundIndex){
-        Game game = gameService.showRound(id, roundIndex);
-        return new ResponseEntity<Game>(game, HttpStatus.OK);
+        Round round = gameService.showRound(id, roundIndex);
+        return new ResponseEntity<Round>(round, HttpStatus.OK);
     }
 
     //show score

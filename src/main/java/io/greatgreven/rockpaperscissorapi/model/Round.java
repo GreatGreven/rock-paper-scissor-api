@@ -1,17 +1,23 @@
 package io.greatgreven.rockpaperscissorapi.model;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import io.greatgreven.rockpaperscissorapi.filters.TieConditionFilter;
+
 import java.util.Optional;
 
 public class Round {
     private final int round;
-    private final Player winner;
-    private final Player loser;
-    private final boolean tie;
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
+    private final String winner;
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
+    private final String loser;
+    @JsonInclude(value = JsonInclude.Include.CUSTOM, valueFilter = TieConditionFilter.class)
+    private final Boolean tie;
 
     public Round(int round, int result, Player player1, Player player2) {
         this.round = round;
-        this.winner = result > 0 ? player1 : result < 0 ? player2 : null;
-        this.loser = result < 0 ? player1 : result > 0 ? player2 : null;
+        this.winner = result > 0 ? player1.getName() : result < 0 ? player2.getName() : "";
+        this.loser = result < 0 ? player1.getName() : result > 0 ? player2.getName() : "";
         this.tie = result == 0;
     }
 
@@ -19,12 +25,12 @@ public class Round {
         return round;
     }
 
-    public Optional<Player> getWinner() {
-        return Optional.ofNullable(winner);
+    public String getWinner() {
+        return winner;
     }
 
-    public Optional<Player> getLoser() {
-        return Optional.ofNullable(loser);
+    public String getLoser() {
+        return loser;
     }
 
     public boolean isTie() {

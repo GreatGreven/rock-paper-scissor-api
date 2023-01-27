@@ -1,6 +1,7 @@
 package io.greatgreven.rockpaperscissorapi.dao;
 
 
+import io.greatgreven.rockpaperscissorapi.exception.GameNotFoundException;
 import io.greatgreven.rockpaperscissorapi.model.Game;
 import io.greatgreven.rockpaperscissorapi.model.Player;
 import org.springframework.stereotype.Repository;
@@ -26,17 +27,19 @@ public class FakeGameDAO implements IGameDAO{
     }
 
     @Override
-    public Optional<Game> findGameById(String id) {
+    public Game findGameById(String id) {
         return fakeDatabase
                 .stream()
                 .filter(game -> game.getUUID().toString().equals(id))
-                .findFirst();
+                .findFirst()
+                .orElseThrow(() ->
+                        new GameNotFoundException(
+                                String.format("Game %s not found", id))
+                );
     }
 
     @Override
     public synchronized Optional<Game> updateGameById(String id, Game game) {
-        Optional<Game> optionalGame = findGameById(id);
-
         return Optional.empty();
     }
 

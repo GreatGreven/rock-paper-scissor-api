@@ -36,14 +36,14 @@ public class PlayerModelTest {
         nameAndID();
         player.makeMove(Move.Rock);
         Assert.isTrue(
-            player.getMove().get().isRock(), String.format(
-                "%s's move is %s and not %s", player.getName(), player.getMove(), Move.Rock));
+            player.getCheckMove().get().isRock(), String.format(
+                "%s's move is %s and not %s", player.getName(), player.getCheckMove(), Move.Rock));
         Assert.isTrue(
-            !player.getMove().get().isPaper(), String.format(
-                "%s's move is %s", player.getName(), player.getMove()));
+            !player.getCheckMove().get().isPaper(), String.format(
+                "%s's move is %s", player.getName(), player.getCheckMove()));
         Assert.isTrue(
-            !player.getMove().get().isScissor(), String.format(
-                "%s's move is %s", player.getName(), player.getMove()));
+            !player.getCheckMove().get().isScissor(), String.format(
+                "%s's move is %s", player.getName(), player.getCheckMove()));
 
         //Change to paper
         try {

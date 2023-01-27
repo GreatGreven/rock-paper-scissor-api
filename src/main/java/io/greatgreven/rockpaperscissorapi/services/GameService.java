@@ -1,11 +1,10 @@
 package io.greatgreven.rockpaperscissorapi.services;
 
 import io.greatgreven.rockpaperscissorapi.dao.IGameDAO;
-import io.greatgreven.rockpaperscissorapi.exception.GameNotFoundException;
 import io.greatgreven.rockpaperscissorapi.model.Game;
 import io.greatgreven.rockpaperscissorapi.model.Player;
+import io.greatgreven.rockpaperscissorapi.model.Round;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -20,33 +19,22 @@ public class GameService implements IGameService{
 
     @Override
     public Game joinGame(String id, Player player) {
-        HttpStatus status = HttpStatus.OK;
-        Game game = gameDAO.findGameById(id)
-                .orElseThrow(() ->
-                        new GameNotFoundException(
-                                String.format("Game %s not found", id)))
-                .addPlayer(player);
-        return game;
+        return gameDAO.findGameById(id).addPlayer(player);
     }
 
     @Override
-    public Game leaveGame(String id, Player player) {
-        Game game = gameDAO.findGameById(id)
-                .orElseThrow(() ->
-                        new GameNotFoundException(
-                                String.format("Game %s not found", id)))
-                .removePlayer(player);
-        return game;
+    public Game leaveGame(String id, String playerName) {
+        return gameDAO.findGameById(id).removePlayer(playerName);
     }
 
     @Override
     public Game makeMove(String id, Player player) {
-        return null;
+        return gameDAO.findGameById(id).makeMove(player);
     }
 
     @Override
-    public Game showRound(String id, int roundIndex) {
-        return null;
+    public Round showRound(String id, int roundIndex) {
+        return gameDAO.findGameById(id).getRounds().get(roundIndex);
     }
 
     @Override
@@ -56,6 +44,6 @@ public class GameService implements IGameService{
 
     @Override
     public Game showGame(String id) {
-        return null;
+        return gameDAO.findGameById(id);
     }
 }
