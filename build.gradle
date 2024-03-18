@@ -2,7 +2,7 @@ plugins {
 	id 'org.springframework.boot' version '2.4.2'
 	id 'io.spring.dependency-management' version '1.0.10.RELEASE'
 	id 'java'
-	id 'org.asciidoctor.convert' version '1.5.9.2'
+	id "org.asciidoctor.jvm.convert" version "3.3.2"
 }
 
 group = 'io.greatgreven'
@@ -13,14 +13,18 @@ repositories {
 	mavenCentral()
 }
 
+configurations {
+	asciidoctorExt
+}
+
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation("org.springdoc:springdoc-openapi-ui:1.6.9")
 	testImplementation('org.springframework.boot:spring-boot-starter-test') {
 		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
 	}
-	asciidoctor 'org.springframework.restdocs:spring-restdocs-asciidoctor' 
-	testCompile 'org.springframework.restdocs:spring-restdocs-mockmvc'
+	asciidoctorExt 'org.springframework.restdocs:spring-restdocs-asciidoctor'
+	testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
 }
 
 ext { 
@@ -34,6 +38,7 @@ test {
 
 asciidoctor {
 	inputs.dir snippetsDir
+    configurations 'asciidoctorExt'
 	dependsOn test
 }
 
